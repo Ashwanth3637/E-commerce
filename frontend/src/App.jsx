@@ -9,6 +9,8 @@ import CartPage from './pages/CartPage';
 import ContactPage from './pages/ContactPage';
 import AdminPage from './pages/AdminPage';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [products, setProducts] = useState([]);
@@ -18,8 +20,8 @@ export default function App() {
   const loadData = async () => {
     try {
       const [pRes, cRes] = await Promise.all([
-        fetch('/api/products'),
-        fetch('/api/categories')
+        fetch(`${API_URL}/api/products`),
+        fetch(`${API_URL}/api/categories`)
       ]);
       if (pRes.ok) setProducts(await pRes.json());
       if (cRes.ok) setCategories(await cRes.json());
@@ -57,9 +59,9 @@ export default function App() {
             onSelectProduct={setSelectedProduct}
           />
         )}
-        {currentPage === 'cart' && <CartPage navigateTo={navigateTo} />}
-        {currentPage === 'contact' && <ContactPage />}
-        {currentPage === 'admin' && <AdminPage onProductChange={loadData} />}
+        {currentPage === 'cart' && <CartPage navigateTo={navigateTo} backendUrl={API_URL} />}
+        {currentPage === 'contact' && <ContactPage backendUrl={API_URL} />}
+        {currentPage === 'admin' && <AdminPage backendUrl={API_URL} onProductChange={loadData} />}
       </main>
 
       {selectedProduct && (
