@@ -6,13 +6,22 @@ export default function ProductModal({ product, onClose, onGoToCart }) {
   const [quantity, setQuantity] = useState(1);
   const [addedNotice, setAddedNotice] = useState(false);
 
-  // Disable background scrolling when modal is open
+  // Disable background scrolling & close on Escape key press
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
     document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [onClose]);
 
   if (!product) return null;
 
