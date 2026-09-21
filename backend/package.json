@@ -1,0 +1,16 @@
+{
+  "name": "e-commerce-backend",
+  "version": "1.0.0",
+  "description": "Simple Express backend for e-commerce company products and enquiry management",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^4.22.3",
+    "mongoose": "^9.10.1"
+  }
+}
