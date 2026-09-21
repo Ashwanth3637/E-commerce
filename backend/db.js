@@ -1,17 +1,11 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/e_commerce';
+const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/e_commerce';
 
-async function connectDB() {
-  try {
-    await mongoose.connect(MONGODB_URI);
-    console.log(`✅ MongoDB Atlas Connected successfully to database: ${mongoose.connection.name}`);
-  } catch (error) {
-    console.error('❌ MongoDB Connection Error:', error.message);
-  }
-}
-
-connectDB();
+mongoose.connect(uri)
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.error('MongoDB Connection Error:', err.message));
 
 module.exports = mongoose;
+
