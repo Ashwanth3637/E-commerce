@@ -548,19 +548,21 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                 </tr>
               </thead>
               <tbody>
-                {categories.map((c) => (
-                  <tr key={c.id || c._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                    <td style={{ padding: '10px', fontWeight: '500' }}>{c.name}</td>
-                    <td style={{ padding: '10px', textAlign: 'right' }}>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleDeleteCategory(c._id || c.id || c.name)}
-                      >
-                        <Trash2 size={13} /> Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                  {categories.map((c) => (
+                    <tr key={c.id || c._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                      <td style={{ padding: '10px', fontWeight: '500' }}>{c.name}</td>
+                      <td style={{ padding: '10px', textAlign: 'right' }}>
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDeleteCategory(c._id || c.id || c.name)}
+                          title="Delete Category"
+                          style={{ padding: '6px 10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
