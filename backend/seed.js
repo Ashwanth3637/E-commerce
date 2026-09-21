@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const Product = require('./models/Product');
 const Category = require('./models/Category');
@@ -6,10 +7,11 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/e_comm
 
 async function seedData() {
   try {
+    console.log('Connecting to MongoDB Atlas at:', MONGODB_URI.replace(/:([^:@]+)@/, ':****@'));
     await mongoose.connect(MONGODB_URI);
-    console.log('Connected to MongoDB for seeding...');
+    console.log('✅ Connected to MongoDB Atlas for seeding...');
 
-    // Clear existing if any
+    // Clear existing
     await Product.deleteMany({});
     await Category.deleteMany({});
 
@@ -123,7 +125,7 @@ async function seedData() {
     ];
 
     await Product.insertMany(products);
-    console.log(`✅ Seeded ${products.length} products into MongoDB e_commerce database!`);
+    console.log(`✅ Seeded ${products.length} products successfully into MongoDB Atlas!`);
     process.exit(0);
   } catch (err) {
     console.error('Seeding error:', err);
