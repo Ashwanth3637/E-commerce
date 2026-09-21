@@ -41,7 +41,7 @@ router.post('/enquiries', async (req, res) => {
 // GET /api/enquiries - retrieve recent enquiries from MongoDB
 router.get('/enquiries', async (req, res) => {
   try {
-    const enquiries = await Enquiry.find().sort({ created_at: -1 }).limit(50);
+    const enquiries = await Enquiry.find().sort({ created_at: -1 }).limit(100);
     const formatted = enquiries.map(e => ({
       ...e.toObject(),
       id: e._id
@@ -50,6 +50,52 @@ router.get('/enquiries', async (req, res) => {
   } catch (error) {
     console.error('Error fetching enquiries from MongoDB:', error);
     res.status(500).json({ error: 'Failed to fetch enquiries' });
+  }
+});
+
+// PATCH /api/enquiries/:id/status - update enquiry status
+router.patch('/enquiries/:id/status', async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status) {
+      return res.status(400).json({ error: 'Status is required' });
+    }
+
+    const updated = await Enquiry.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ error: 'Enquiry not found' });
+    }
+
+    res.json({
+      success: true,
+      message: 'Status updated successfully',
+      enquiry: {
+        ...updated.toObject(),
+        id: updated._id
+      }
+    });
+  } catch (error) {
+    console.error('Error updating enquiry status:', error);
+    res.status(500).json({ error: 'Failed to update enquiry status' });
+  }
+});
+
+// DELETE /api/enquiries/:id - delete enquiry
+router.delete('/enquiries/:id', async (req, res) => {
+  try {
+    const deleted = await Enquiry.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: 'Enquiry not found' });
+    }
+    res.json({ success: true, message: 'Enquiry deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting enquiry:', error);
+    res.status(500).json({ error: 'Failed to delete enquiry' });
   }
 });
 

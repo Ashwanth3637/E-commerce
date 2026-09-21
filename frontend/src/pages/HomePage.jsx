@@ -7,7 +7,7 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
 
   return (
     <div>
-      {/* Hero Section */}
+     
       <section className="hero">
         <div className="container">
           <div className="hero-grid">
@@ -39,7 +39,7 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
         </div>
       </section>
 
-      {/* Company Intro & Value Props */}
+     
       <section className="section-padding">
         <div className="container">
           <div className="section-title">
@@ -75,7 +75,7 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
         </div>
       </section>
 
-      {/* Featured Products */}
+
       <section className="section-padding" style={{ backgroundColor: '#ffffff', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '30px', flexWrap: 'wrap', gap: '15px' }}>
@@ -100,7 +100,7 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
         </div>
       </section>
 
-      {/* Quick About Overview */}
+      
       <section className="section-padding">
         <div className="container">
           <div className="hero-grid" style={{ alignItems: 'center' }}>
@@ -125,7 +125,7 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
         </div>
       </section>
 
-      {/* Call to Action Banner */}
+     
       <section style={{ backgroundColor: 'var(--primary)', color: '#ffffff', padding: '50px 0', textAlign: 'center' }}>
         <div className="container">
           <h2 style={{ color: '#ffffff', fontSize: '28px', marginBottom: '12px' }}>

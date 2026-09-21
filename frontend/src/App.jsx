@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProductModal from './components/ProductModal';
@@ -7,6 +7,7 @@ import AboutPage from './pages/AboutPage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
 import ContactPage from './pages/ContactPage';
+import AdminPage from './pages/AdminPage';
 
 const BACKEND_URL = '';
 
@@ -132,34 +133,34 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Fetch live products and categories from backend
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const [prodRes, catRes] = await Promise.all([
-          fetch(`${BACKEND_URL}/api/products`),
-          fetch(`${BACKEND_URL}/api/categories`)
-        ]);
+  const loadData = useCallback(async () => {
+    try {
+      const [prodRes, catRes] = await Promise.all([
+        fetch(`${BACKEND_URL}/api/products`),
+        fetch(`${BACKEND_URL}/api/categories`)
+      ]);
 
-        if (prodRes.ok) {
-          const prodData = await prodRes.json();
-          if (prodData && prodData.length > 0) {
-            setProducts(prodData);
-          }
+      if (prodRes.ok) {
+        const prodData = await prodRes.json();
+        if (prodData && prodData.length > 0) {
+          setProducts(prodData);
         }
-
-        if (catRes.ok) {
-          const catData = await catRes.json();
-          if (catData && catData.length > 0) {
-            setCategories(catData);
-          }
-        }
-      } catch (err) {
-        console.log('Using local fallback product data', err);
       }
-    }
 
-    loadData();
+      if (catRes.ok) {
+        const catData = await catRes.json();
+        if (catData && catData.length > 0) {
+          setCategories(catData);
+        }
+      }
+    } catch (err) {
+      console.log('Using local fallback product data', err);
+    }
   }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const navigateTo = (page) => {
     setCurrentPage(page);
@@ -206,6 +207,13 @@ export default function App() {
         {currentPage === 'contact' && (
           <ContactPage
             backendUrl={BACKEND_URL}
+          />
+        )}
+
+        {currentPage === 'admin' && (
+          <AdminPage
+            backendUrl={BACKEND_URL}
+            onProductChange={loadData}
           />
         )}
       </main>

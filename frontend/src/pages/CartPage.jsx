@@ -132,7 +132,7 @@ export default function CartPage({ navigateTo, backendUrl }) {
             </div>
           ) : (
             <div className="cart-layout">
-              {/* Items List */}
+             
               <div className="cart-table-card">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid var(--border-color)' }}>
                   <h3 style={{ fontSize: '18px' }}>Cart Items ({cartItems.length})</h3>

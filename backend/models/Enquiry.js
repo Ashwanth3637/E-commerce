@@ -13,7 +13,7 @@ const enquirySchema = new mongoose.Schema({
   phone: { type: String },
   subject: { type: String, default: 'General Enquiry' },
   message: { type: String, required: true },
-  status: { type: String, default: 'New' },
+  status: { type: String, default: 'Pending' },
   items: [enquiryItemSchema],
   created_at: { type: Date, default: Date.now }
 });

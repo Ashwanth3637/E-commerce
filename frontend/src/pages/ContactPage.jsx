@@ -24,7 +24,7 @@ export default function ContactPage({ backendUrl }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate that ALL fields are filled and mandatory
+    
     if (
       !formData.name.trim() ||
       !formData.email.trim() ||
@@ -68,7 +68,7 @@ export default function ContactPage({ backendUrl }) {
       }
     } catch (err) {
       console.error('Network error during enquiry submission:', err);
-      // Fallback display
+    
       setSuccess(true);
     } finally {
       setLoading(false);
@@ -77,7 +77,7 @@ export default function ContactPage({ backendUrl }) {
 
   return (
     <div>
-      {/* Page Header */}
+  
       <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '35px 0' }}>
         <div className="container">
           <h1 style={{ fontSize: '30px', marginBottom: '6px' }}>Contact & Enquiry</h1>
@@ -87,11 +87,11 @@ export default function ContactPage({ backendUrl }) {
         </div>
       </section>
 
-      {/* Main Form Section */}
+      
       <section className="section-padding">
         <div className="container">
           <div className="contact-grid">
-            {/* Contact Information */}
+           
             <div className="contact-info-card">
               <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '13px' }}>GET IN TOUCH</span>
               <h2 style={{ fontSize: '24px', marginTop: '4px', marginBottom: '20px' }}>
@@ -148,7 +148,7 @@ export default function ContactPage({ backendUrl }) {
               </div>
             </div>
 
-            {/* Enquiry Form */}
+          
             <div className="form-card">
               <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>Send Us an Enquiry</h3>
 
