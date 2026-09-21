@@ -77,9 +77,9 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
 
                 return (
                   <div key={cat.id} style={{ marginBottom: '45px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
                       <div>
-                        <h2 style={{ fontSize: '22px', color: '#0f172a' }}>{cat.name}</h2>
+                        <h2 style={{ fontSize: '20px', color: '#0f172a' }}>{cat.name}</h2>
                         <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{cat.description}</p>
                       </div>
                       <button
@@ -90,7 +90,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
                       </button>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+                    <div className="products-grid-medium">
                       {catProducts.map(product => (
                         <ProductCard
                           key={product.id}
@@ -107,12 +107,12 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
             /* If a category is selected or searching */
             <div>
               <div style={{ marginBottom: '20px', color: 'var(--text-muted)', fontSize: '14px' }}>
-                Showing <strong>{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'product' : 'products'}
+                Showing <strong>{filteredProducts.slice(0, 2).length}</strong> {filteredProducts.length === 1 ? 'product' : 'products'}
                 {searchQuery && ` matching "${searchQuery}"`}
               </div>
 
               {filteredProducts.length > 0 ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+                <div className="products-grid-medium">
                   {filteredProducts.slice(0, 2).map(product => (
                     <ProductCard
                       key={product.id}

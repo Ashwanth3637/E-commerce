@@ -1,6 +1,8 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1580481077195-c9a9103c8091?auto=format&fit=crop&w=600&q=80';
+
 export default function ProductCard({ product, onViewDetails }) {
   const { addToCart } = useCart();
 
@@ -13,9 +15,13 @@ export default function ProductCard({ product, onViewDetails }) {
     <div className="product-card" onClick={() => onViewDetails(product)}>
       <div className="product-image-wrap">
         <img
-          src={product.image_url || 'https://images.unsplash.com/photo-1580481077195-c9a9103c8091?auto=format&fit=crop&w=600&q=80'}
+          src={product.image_url || DEFAULT_IMAGE}
           alt={product.name}
           loading="lazy"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = DEFAULT_IMAGE;
+          }}
         />
         {product.category_name && (
           <span className="category-badge">{product.category_name}</span>
