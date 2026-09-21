@@ -38,7 +38,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
         
           <div className="filter-bar">
             
-            <div style={{ position: 'relative', flex: 1, width: '100%', minWidth: '200px' }}>
+            <div style={{ position: 'relative', flex: 1, width: '100%' }}>
               <Search
                 size={18}
                 style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}

@@ -998,10 +998,19 @@ h1, h2, h3, h4 {
 
   .category-tabs {
     width: 100%;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 6px;
-    -webkit-overflow-scrolling: touch;
+    overflow-x: visible;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 0;
+  }
+
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: var(--radius);
+    white-space: normal;
+    text-align: center;
   }
 
   /* Contact Page Mobile Layout */
