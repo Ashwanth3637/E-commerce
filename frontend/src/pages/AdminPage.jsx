@@ -414,16 +414,19 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                         <td style={{ padding: '10px', textAlign: 'right' }}>
                           <button
                             className="btn btn-outline btn-sm"
-                            style={{ marginRight: '6px' }}
+                            style={{ marginRight: '6px', padding: '6px 10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                            title="View Details"
                             onClick={() => setViewEnquiry(enq)}
                           >
-                            <Eye size={13} /> View
+                            <Eye size={14} />
                           </button>
                           <button
                             className="btn btn-danger btn-sm"
+                            style={{ padding: '6px 10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                            title="Delete Enquiry"
                             onClick={() => handleDeleteEnquiry(enq.id || enq._id)}
                           >
-                            <Trash2 size={13} />
+                            <Trash2 size={14} />
                           </button>
                         </td>
                       </tr>
@@ -482,7 +485,8 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                       <td style={{ padding: '10px', textAlign: 'right' }}>
                         <button
                           className="btn btn-outline btn-sm"
-                          style={{ marginRight: '6px' }}
+                          style={{ marginRight: '6px', padding: '6px 10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                          title="Edit Product"
                           onClick={() => {
                             setEditProduct(p);
                             setProductForm({
@@ -498,13 +502,15 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                             setShowAddProduct(true);
                           }}
                         >
-                          <Edit3 size={13} /> Edit
+                          <Edit3 size={14} />
                         </button>
                         <button
                           className="btn btn-danger btn-sm"
+                          style={{ padding: '6px 10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                          title="Delete Product"
                           onClick={() => handleDeleteProduct(p.id || p._id)}
                         >
-                          <Trash2 size={13} />
+                          <Trash2 size={14} />
                         </button>
                       </td>
                     </tr>
