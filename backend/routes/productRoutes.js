@@ -4,11 +4,18 @@ const Product = require('../models/Product');
 const Category = require('../models/Category');
 const Enquiry = require('../models/Enquiry');
 
+const mongoose = require('mongoose');
+
 // GET /api/categories - get all categories from MongoDB
 router.get('/categories', async (req, res) => {
   try {
     const categories = await Category.find().sort({ id: 1 });
-    res.json(categories);
+    const formatted = categories.map(c => ({
+      ...c.toObject(),
+      _id: c._id,
+      id: c.id || c._id
+    }));
+    res.json(formatted);
   } catch (error) {
     console.error('Error fetching categories from MongoDB:', error);
     res.status(500).json({ error: 'Failed to fetch categories' });
@@ -25,7 +32,7 @@ router.post('/categories', async (req, res) => {
 
     // Determine highest id
     const highest = await Category.findOne().sort({ id: -1 });
-    const nextId = highest && highest.id ? highest.id + 1 : 1;
+    const nextId = highest && highest.id ? Number(highest.id) + 1 : 1;
 
     const newCategory = new Category({
       id: nextId,
@@ -34,17 +41,33 @@ router.post('/categories', async (req, res) => {
     });
 
     const saved = await newCategory.save();
-    res.status(201).json(saved);
+    res.status(201).json({
+      ...saved.toObject(),
+      _id: saved._id,
+      id: saved.id || saved._id
+    });
   } catch (error) {
     console.error('Error adding category:', error);
     res.status(500).json({ error: 'Failed to add category' });
   }
 });
 
-// DELETE /api/categories/:id - delete a category
+// DELETE /api/categories/:id - delete a category (supports _id or numeric id)
 router.delete('/categories/:id', async (req, res) => {
   try {
-    const category = await Category.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    let category = null;
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      category = await Category.findByIdAndDelete(id);
+    }
+    if (!category) {
+      category = await Category.findOneAndDelete({ id: Number(id) || 0 });
+    }
+    if (!category) {
+      category = await Category.findOneAndDelete({ name: id });
+    }
+
     if (!category) {
       return res.status(404).json({ error: 'Category not found' });
     }

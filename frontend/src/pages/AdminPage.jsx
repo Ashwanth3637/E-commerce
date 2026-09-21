@@ -238,6 +238,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
       if (res.ok) {
         setNewCatName('');
         loadAdminData();
+        if (onProductChange) onProductChange();
       }
     } catch (err) {
       console.error('Add category error:', err);
@@ -245,14 +246,18 @@ export default function AdminPage({ backendUrl, onProductChange }) {
   };
 
   // Delete Category
-  const handleDeleteCategory = async (catId) => {
+  const handleDeleteCategory = async (catIdentifier) => {
     if (!window.confirm('Delete this category?')) return;
     try {
-      const res = await fetch(`${backendUrl}/api/categories/${catId}`, {
+      const res = await fetch(`${backendUrl}/api/categories/${catIdentifier}`, {
         method: 'DELETE'
       });
       if (res.ok) {
+        setCategories(prev => prev.filter(c => c._id !== catIdentifier && c.id !== catIdentifier && c.name !== catIdentifier));
         loadAdminData();
+        if (onProductChange) onProductChange();
+      } else {
+        alert('Failed to delete category.');
       }
     } catch (err) {
       console.error('Delete category error:', err);
@@ -549,7 +554,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                     <td style={{ padding: '10px', textAlign: 'right' }}>
                       <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => handleDeleteCategory(c.id || c._id)}
+                        onClick={() => handleDeleteCategory(c._id || c.id || c.name)}
                       >
                         <Trash2 size={13} /> Delete
                       </button>
