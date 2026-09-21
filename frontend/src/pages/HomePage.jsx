@@ -3,7 +3,7 @@ import ProductCard from '../components/ProductCard';
 import { ShieldCheck, Zap, Award, ArrowRight } from 'lucide-react';
 
 export default function HomePage({ products, navigateTo, onSelectProduct }) {
-  const featuredProducts = products.filter(p => p.featured === 1).slice(0, 2);
+  const trendingProducts = products.slice(0, 2);
 
   return (
     <div>
@@ -80,18 +80,18 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '30px', flexWrap: 'wrap', gap: '15px' }}>
             <div>
-              <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '13px' }}>TOP RECOMMENDATIONS</span>
-              <h2 style={{ fontSize: '26px', marginTop: '4px' }}>Featured Products</h2>
+              <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '13px' }}>TOP PICKS</span>
+              <h2 style={{ fontSize: '26px', marginTop: '4px' }}>Trending Products</h2>
             </div>
             <button className="btn btn-outline btn-sm" onClick={() => navigateTo('products')}>
               View Full Catalogue <ArrowRight size={14} />
             </button>
           </div>
 
-          <div className="products-grid-medium">
-            {featuredProducts.slice(0, 2).map(product => (
+          <div className="products-grid-medium" style={{ justifyContent: 'center', gap: '24px' }}>
+            {trendingProducts.map(product => (
               <ProductCard
-                key={product.id}
+                key={product.id || product._id}
                 product={product}
                 onViewDetails={onSelectProduct}
               />
