@@ -55,15 +55,6 @@ export default function Navbar({ currentPage, navigateTo }) {
               Contact / Enquiry
             </span>
           </li>
-          <li>
-            <span
-              className={`nav-link ${currentPage === 'admin' ? 'active' : ''}`}
-              onClick={() => handleNav('admin')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: currentPage === 'admin' ? 'var(--primary)' : 'inherit', fontWeight: '600' }}
-            >
-              Admin Portal
-            </span>
-          </li>
         </ul>
 
         {/* Actions (Cart & Mobile Menu) */}
