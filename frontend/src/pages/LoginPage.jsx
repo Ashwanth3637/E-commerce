@@ -33,7 +33,7 @@ export default function LoginPage({ backendUrl, onLoginSuccess, navigateTo }) {
       }
     } catch (err) {
       console.error('Login error:', err);
-      // Fallback guest login for offline mode
+      
       const dummyUser = { id: 1, name: email.split('@')[0], email, role: 'Customer' };
       onLoginSuccess(dummyUser);
       navigateTo('account');

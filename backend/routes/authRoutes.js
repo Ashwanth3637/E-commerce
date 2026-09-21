@@ -75,4 +75,60 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// POST /api/auth/admin-login - Dedicated admin authentication
+router.post('/admin-login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username/Email and Password are required.' });
+    }
+
+    const cleanUser = username.trim().toLowerCase();
+    const cleanPass = password.trim();
+
+    // 1. Built-in Master Admin Credentials
+    if (
+      (cleanUser === 'admin' || cleanUser === 'admin@apexworkspace.com' || cleanUser === 'admin@gmail.com') &&
+      (cleanPass === 'admin123' || cleanPass === 'admin@2026' || cleanPass === 'admin')
+    ) {
+      return res.json({
+        success: true,
+        message: 'Admin authentication successful',
+        admin: {
+          name: 'Apex Administrator',
+          email: 'admin@apexworkspace.com',
+          role: 'Admin',
+          token: 'apex-admin-session-token'
+        }
+      });
+    }
+
+    // 2. Database Admin User Check
+    const dbAdmin = await User.findOne({ 
+      email: cleanUser,
+      role: 'Admin'
+    });
+
+    if (dbAdmin && dbAdmin.password === cleanPass) {
+      return res.json({
+        success: true,
+        message: 'Admin authentication successful',
+        admin: {
+          id: dbAdmin._id,
+          name: dbAdmin.name,
+          email: dbAdmin.email,
+          role: 'Admin',
+          token: 'apex-admin-session-token'
+        }
+      });
+    }
+
+    return res.status(401).json({ error: 'Invalid admin credentials. Please enter authorized username/password.' });
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({ error: 'Admin login failed due to server error.' });
+  }
+});
+
 module.exports = router;

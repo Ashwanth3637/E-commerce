@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   LayoutDashboard, 
   Mail, 
@@ -13,12 +13,35 @@ import {
   PhoneCall, 
   FileText, 
   Search, 
-  RefreshCw,
-  X,
-  AlertCircle
+  RefreshCw, 
+  X, 
+  AlertCircle, 
+  ShieldCheck, 
+  Lock, 
+  User, 
+  LogOut, 
+  ArrowRight 
 } from 'lucide-react';
 
 export default function AdminPage({ backendUrl, onProductChange }) {
+  // Admin Authentication State
+  const [adminUser, setAdminUser] = useState(() => {
+    try {
+      const stored = sessionStorage.getItem('apex_admin_user');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const [loginForm, setLoginForm] = useState({
+    username: '',
+    password: ''
+  });
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
+
+ 
   const [activeTab, setActiveTab] = useState('enquiries'); // 'dashboard', 'enquiries', 'products', 'categories'
   const [stats, setStats] = useState({
     totalProducts: 0,
@@ -33,16 +56,16 @@ export default function AdminPage({ backendUrl, onProductChange }) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // Filter & Search states
+
   const [enquiryStatusFilter, setEnquiryStatusFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Modals
+  
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
   const [productModal, setProductModal] = useState({ open: false, mode: 'add', product: null });
   const [categoryModal, setCategoryModal] = useState(false);
 
-  // Form states for Product Add/Edit
+ 
   const [productForm, setProductForm] = useState({
     name: '',
     category_id: 1,
@@ -56,14 +79,15 @@ export default function AdminPage({ backendUrl, onProductChange }) {
     featured: 0
   });
 
-  // Form state for Category Add
+  
   const [categoryForm, setCategoryForm] = useState({
     name: '',
     description: ''
   });
 
-  // Fetch all data
-  const fetchData = async () => {
+  
+  const fetchData = useCallback(async () => {
+    if (!adminUser) return;
     setLoading(true);
     try {
       const [statsRes, enqRes, prodRes, catRes] = await Promise.all([
@@ -88,18 +112,73 @@ export default function AdminPage({ backendUrl, onProductChange }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [adminUser, backendUrl]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (adminUser) {
+      fetchData();
+    }
+  }, [adminUser, fetchData]);
 
   const showNotification = (type, text) => {
     setMessage({ type, text });
     setTimeout(() => setMessage({ type: '', text: '' }), 4000);
   };
 
-  // --- ENQUIRY ACTIONS ---
+
+  const handleAdminLogin = async (e) => {
+    e.preventDefault();
+    if (!loginForm.username.trim() || !loginForm.password.trim()) {
+      setLoginError('Please enter both admin username/email and password.');
+      return;
+    }
+
+    setLoginLoading(true);
+    setLoginError('');
+
+    try {
+      const res = await fetch(`${backendUrl}/api/auth/admin-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginForm)
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        const adminData = data.admin || { name: 'Apex Admin', email: loginForm.username, role: 'Admin' };
+        setAdminUser(adminData);
+        sessionStorage.setItem('apex_admin_user', JSON.stringify(adminData));
+        setLoginForm({ username: '', password: '' });
+      } else {
+        setLoginError(data.error || 'Invalid credentials. Please try again.');
+      }
+    } catch (err) {
+      console.error('Admin login error:', err);
+     
+      if (
+        (loginForm.username.trim().toLowerCase() === 'admin' || loginForm.username.trim().toLowerCase() === 'admin@apexworkspace.com') &&
+        (loginForm.password.trim() === 'admin123' || loginForm.password.trim() === 'admin')
+      ) {
+        const adminData = { name: 'Apex Administrator', email: 'admin@apexworkspace.com', role: 'Admin' };
+        setAdminUser(adminData);
+        sessionStorage.setItem('apex_admin_user', JSON.stringify(adminData));
+      } else {
+        setLoginError('Authentication failed. Check your connection or credentials.');
+      }
+    } finally {
+      setLoginLoading(false);
+    }
+  };
+
+  const handleAdminLogout = () => {
+    sessionStorage.removeItem('apex_admin_user');
+    setAdminUser(null);
+    setEnquiries([]);
+    setSelectedEnquiry(null);
+  };
+
+  
   const handleUpdateStatus = async (enquiryId, newStatus) => {
     try {
       const res = await fetch(`${backendUrl}/api/enquiries/${enquiryId}/status`, {
@@ -114,7 +193,6 @@ export default function AdminPage({ backendUrl, onProductChange }) {
         if (selectedEnquiry && (selectedEnquiry.id === enquiryId || selectedEnquiry._id === enquiryId)) {
           setSelectedEnquiry(prev => ({ ...prev, status: newStatus }));
         }
-        // update stats
         const statsRes = await fetch(`${backendUrl}/api/admin/stats`);
         if (statsRes.ok) setStats(await statsRes.json());
       } else {
@@ -127,7 +205,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
   };
 
   const handleDeleteEnquiry = async (enquiryId) => {
-    if (!window.confirm('Are you sure you want to delete this enquiry?')) return;
+    if (!window.confirm('Are you sure you want to delete this customer enquiry?')) return;
     try {
       const res = await fetch(`${backendUrl}/api/enquiries/${enquiryId}`, {
         method: 'DELETE'
@@ -148,7 +226,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
     }
   };
 
-  // --- PRODUCT ACTIONS ---
+  
   const handleOpenAddProduct = () => {
     const defaultCat = categories[0] || { id: 1, name: 'Ergonomic Furniture' };
     setProductForm({
@@ -244,7 +322,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
     }
   };
 
-  // --- CATEGORY ACTIONS ---
+
   const handleSaveCategory = async (e) => {
     e.preventDefault();
     if (!categoryForm.name.trim()) return;
@@ -288,7 +366,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
     }
   };
 
-  // Filtered Enquiries
+
   const filteredEnquiries = enquiries.filter(enq => {
     const matchesStatus = enquiryStatusFilter === 'All' || enq.status === enquiryStatusFilter;
     const matchesQuery = searchQuery === '' || 
@@ -304,7 +382,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
       case 'New':
         return <span className="badge badge-warning" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> Pending</span>;
       case 'Contacted':
-        return <span className="badge badge-info" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', backgroundColor: '#e0f2fe', color: '#0284c7' }}><PhoneCall size={12} /> Contacted</span>;
+        return <span className="badge badge-info" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><PhoneCall size={12} /> Contacted</span>;
       case 'Quotation Sent':
         return <span className="badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', backgroundColor: '#fef3c7', color: '#b45309' }}><FileText size={12} /> Quotation Sent</span>;
       case 'Completed':
@@ -314,24 +392,118 @@ export default function AdminPage({ backendUrl, onProductChange }) {
     }
   };
 
+
+  
+  if (!adminUser) {
+    return (
+      <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8fafc', padding: '40px 16px' }}>
+        <div style={{ maxWidth: '440px', width: '100%', backgroundColor: '#ffffff', borderRadius: '12px', border: '1px solid var(--border-color)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)', padding: '36px 28px' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <div style={{ width: '56px', height: '56px', borderRadius: '14px', backgroundColor: 'var(--primary-light)', color: 'var(--primary)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
+              <ShieldCheck size={32} />
+            </div>
+            <h1 style={{ fontSize: '22px', marginBottom: '6px' }}>Admin Authentication</h1>
+            <p style={{ color: 'var(--text-muted)', fontSize: '14px', margin: 0 }}>
+              Secure management portal for Apex Workspace. Please sign in with administrator credentials.
+            </p>
+          </div>
+
+          {loginError && (
+            <div className="alert-error" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', fontSize: '13px', marginBottom: '16px' }}>
+              <AlertCircle size={16} style={{ flexShrink: 0 }} />
+              <span>{loginError}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleAdminLogin}>
+            <div className="form-group" style={{ marginBottom: '14px' }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <User size={14} /> Admin Username / Email *
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="e.g. admin or admin@apexworkspace.com"
+                required
+                value={loginForm.username}
+                onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
+                autoFocus
+              />
+            </div>
+
+            <div className="form-group" style={{ marginBottom: '20px' }}>
+              <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Lock size={14} /> Admin Password *
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                placeholder="Enter admin password"
+                required
+                value={loginForm.password}
+                onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-primary btn-block"
+              disabled={loginLoading}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', height: '42px', fontSize: '15px' }}
+            >
+              {loginLoading ? 'Authenticating...' : <><span>Login to Dashboard</span> <ArrowRight size={16} /></>}
+            </button>
+          </form>
+
+          {/* Quick Demo Credentials Box */}
+          <div style={{ marginTop: '24px', padding: '14px', backgroundColor: '#f1f5f9', borderRadius: 'var(--radius)', border: '1px dashed var(--border-color)', fontSize: '12px', color: '#475569' }}>
+            <strong style={{ display: 'block', color: 'var(--primary)', marginBottom: '4px' }}>Admin Credentials:</strong>
+            <div><strong>Username:</strong> <code>admin</code> or <code>admin@apexworkspace.com</code></div>
+            <div><strong>Password:</strong> <code>admin123</code></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // VIEW 2: AUTHENTICATED ADMIN DASHBOARD
+  // =========================================================================
   return (
     <div className="admin-page" style={{ backgroundColor: '#f8fafc', minHeight: '85vh', paddingBottom: '60px' }}>
       {/* Top Header */}
-      <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '24px 0' }}>
+      <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '20px 0' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', color: 'var(--primary)', letterSpacing: '0.5px' }}>
                 Admin Portal
               </span>
-              <span className="badge badge-primary" style={{ fontSize: '11px' }}>Apex Management</span>
+              <span className="badge badge-success" style={{ fontSize: '11px' }}>
+                <ShieldCheck size={11} style={{ marginRight: '3px' }} /> Verified Administrator
+              </span>
             </div>
-            <h1 style={{ fontSize: '26px', marginTop: '2px', marginBottom: 0 }}>Company Management Dashboard</h1>
+            <h1 style={{ fontSize: '24px', marginTop: '2px', marginBottom: 0 }}>Company Management Dashboard</h1>
           </div>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button className="btn btn-outline btn-sm" onClick={fetchData} disabled={loading}>
-              <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh Data
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ textAlign: 'right', display: 'none', md: 'block' }}>
+              <div style={{ fontSize: '13px', fontWeight: '600' }}>{adminUser.name}</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{adminUser.email}</div>
+            </div>
+
+            <button className="btn btn-outline btn-sm" onClick={fetchData} disabled={loading} title="Refresh data">
+              <RefreshCw size={14} className={loading ? 'spin' : ''} />
+            </button>
+
+            <button 
+              className="btn btn-danger btn-sm" 
+              onClick={handleAdminLogout}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+              title="Logout from Admin Panel"
+            >
+              <LogOut size={13} /> Logout
             </button>
           </div>
         </div>
@@ -360,7 +532,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
             className={`btn ${activeTab === 'enquiries' ? 'btn-primary' : 'btn-outline'} btn-sm`}
             onClick={() => setActiveTab('enquiries')}
           >
-            <Mail size={15} /> Customer Enquiries ({stats.totalEnquiries})
+            <Mail size={15} /> Customer Enquiries & Orders ({stats.totalEnquiries})
             {stats.pendingEnquiries > 0 && (
               <span style={{ backgroundColor: '#ef4444', color: '#fff', fontSize: '11px', padding: '1px 6px', borderRadius: '10px', marginLeft: '4px' }}>
                 {stats.pendingEnquiries}
@@ -424,7 +596,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
             {/* Recent Enquiries Teaser */}
             <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '18px' }}>Recent Customer Enquiries</h3>
+                <h3 style={{ fontSize: '18px' }}>Recent Customer Orders & Enquiries</h3>
                 <button className="btn btn-outline btn-sm" onClick={() => setActiveTab('enquiries')}>View Full Table</button>
               </div>
 
@@ -478,9 +650,9 @@ export default function AdminPage({ backendUrl, onProductChange }) {
           <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '20px' }}>
               <div>
-                <h2 style={{ fontSize: '20px', marginBottom: '4px' }}>Customer Enquiries & Quotation Requests</h2>
+                <h2 style={{ fontSize: '20px', marginBottom: '4px' }}>Customer Enquiries & Quotation Orders</h2>
                 <p style={{ color: 'var(--text-muted)', fontSize: '13px', margin: 0 }}>
-                  Review incoming requests from the Contact page and Cart submissions, view details, and change status.
+                  Review incoming orders and enquiries from customers, inspect products requested, and update workflow status.
                 </p>
               </div>
 
@@ -490,7 +662,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                   <Search size={14} style={{ position: 'absolute', left: '10px', top: '10px', color: 'var(--text-muted)' }} />
                   <input
                     type="text"
-                    placeholder="Search enquiries..."
+                    placeholder="Search customers / emails..."
                     className="form-control"
                     style={{ paddingLeft: '30px', width: '200px', fontSize: '13px', height: '34px' }}
                     value={searchQuery}
