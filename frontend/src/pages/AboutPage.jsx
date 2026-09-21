@@ -28,7 +28,7 @@ export default function AboutPage({ navigateTo }) {
               <p style={{ color: 'var(--text-muted)', marginBottom: '20px' }}>
                 Over the past 8 years, we have outfitted over 500 corporate offices, coworking spaces, and home setups with custom standing desks, orthopaedic mesh seating, and glare-free lighting systems.
               </p>
-            </d
+            </div>
             <div>
               <img
                 src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80"

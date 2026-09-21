@@ -5,7 +5,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter products locally for instantaneous smooth search
+  // Filter products locally for search
   const filteredProducts = products.filter(product => {
     const matchesCategory =
       selectedCategory === 'all' || product.category_id === Number(selectedCategory);
@@ -51,7 +51,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
                 className={`tab-btn ${selectedCategory === 'all' ? 'active' : ''}`}
                 onClick={() => setSelectedCategory('all')}
               >
-                All Products ({products.length})
+                All Sections ({categories.length})
               </button>
               {categories.map(cat => (
                 <button
@@ -65,39 +65,80 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
             </div>
           </div>
 
-          {/* Results Summary */}
-          <div style={{ marginBottom: '20px', color: 'var(--text-muted)', fontSize: '14px' }}>
-            Showing <strong>{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'product' : 'products'}
-            {searchQuery && ` matching "${searchQuery}"`}
-          </div>
+          {/* If viewing All without search: Show section by section with 2 products each */}
+          {selectedCategory === 'all' && searchQuery.trim() === '' ? (
+            <div>
+              {categories.map(cat => {
+                const catProducts = products
+                  .filter(p => p.category_id === cat.id)
+                  .slice(0, 2); // Exactly 2 products per section
 
-          {/* Products Grid */}
-          {filteredProducts.length > 0 ? (
-            <div className="grid-4">
-              {filteredProducts.map(product => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onViewDetails={onSelectProduct}
-                />
-              ))}
+                if (catProducts.length === 0) return null;
+
+                return (
+                  <div key={cat.id} style={{ marginBottom: '45px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
+                      <div>
+                        <h2 style={{ fontSize: '22px', color: '#0f172a' }}>{cat.name}</h2>
+                        <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{cat.description}</p>
+                      </div>
+                      <button
+                        className="btn btn-outline btn-sm"
+                        onClick={() => setSelectedCategory(String(cat.id))}
+                      >
+                        Filter {cat.name}
+                      </button>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+                      {catProducts.map(product => (
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          onViewDetails={onSelectProduct}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           ) : (
-            <div style={{ textAlign: 'center', padding: '60px 20px', backgroundColor: '#ffffff', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-              <div style={{ fontSize: '40px', marginBottom: '12px' }}>🔍</div>
-              <h3 style={{ marginBottom: '8px' }}>No products found</h3>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
-                We couldn't find any products matching your search criteria. Try clearing the filter.
-              </p>
-              <button
-                className="btn btn-outline btn-sm"
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setSearchQuery('');
-                }}
-              >
-                Reset Filters
-              </button>
+            /* If a category is selected or searching */
+            <div>
+              <div style={{ marginBottom: '20px', color: 'var(--text-muted)', fontSize: '14px' }}>
+                Showing <strong>{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'product' : 'products'}
+                {searchQuery && ` matching "${searchQuery}"`}
+              </div>
+
+              {filteredProducts.length > 0 ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+                  {filteredProducts.slice(0, 2).map(product => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      onViewDetails={onSelectProduct}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center', padding: '60px 20px', backgroundColor: '#ffffff', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
+                  <div style={{ fontSize: '40px', marginBottom: '12px' }}>🔍</div>
+                  <h3 style={{ marginBottom: '8px' }}>No products found</h3>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
+                    We couldn't find any products matching your search criteria. Try clearing the filter.
+                  </p>
+                  <button
+                    className="btn btn-outline btn-sm"
+                    onClick={() => {
+                      setSelectedCategory('all');
+                      setSearchQuery('');
+                    }}
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -81,8 +81,8 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
             </button>
           </div>
 
-          <div className="grid-4">
-            {featuredProducts.map(product => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', maxWidth: '850px', margin: '0 auto' }}>
+            {featuredProducts.slice(0, 2).map(product => (
               <ProductCard
                 key={product.id}
                 product={product}
