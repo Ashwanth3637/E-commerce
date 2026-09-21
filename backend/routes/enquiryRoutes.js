@@ -7,8 +7,8 @@ router.post('/enquiries', async (req, res) => {
   try {
     const { customer_name, email, phone, subject, message, items } = req.body;
 
-    if (!customer_name || !email || !message) {
-      return res.status(400).json({ error: 'Name, email, and message are required.' });
+    if (!customer_name || !email || !phone || !message) {
+      return res.status(400).json({ error: 'All fields (Name, Email, Phone, Message) are mandatory.' });
     }
 
     const newEnquiry = new Enquiry({

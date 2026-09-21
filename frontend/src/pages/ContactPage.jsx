@@ -24,8 +24,15 @@ export default function ContactPage({ backendUrl }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-      setErrorMsg('Please fill in all required fields (Name, Email, and Message).');
+    // Validate that ALL fields are filled and mandatory
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.phone.trim() ||
+      !formData.subject.trim() ||
+      !formData.message.trim()
+    ) {
+      setErrorMsg('All fields marked with an asterisk (*) are mandatory. Please fill in all fields.');
       return;
     }
 
@@ -37,11 +44,11 @@ export default function ContactPage({ backendUrl }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customer_name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          subject: formData.subject,
-          message: formData.message
+          customer_name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim()
         })
       });
 
@@ -71,10 +78,10 @@ export default function ContactPage({ backendUrl }) {
   return (
     <div>
       {/* Page Header */}
-      <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '40px 0' }}>
+      <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '35px 0' }}>
         <div className="container">
           <h1 style={{ fontSize: '30px', marginBottom: '6px' }}>Contact & Enquiry</h1>
-          <p style={{ color: 'var(--text-muted)' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>
             We'd love to hear from you. Send us a message or request a quotation for your office setup.
           </p>
         </div>
@@ -188,7 +195,7 @@ export default function ContactPage({ backendUrl }) {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Phone Number</label>
+                  <label className="form-label">Phone Number *</label>
                   <input
                     type="tel"
                     name="phone"
@@ -196,16 +203,18 @@ export default function ContactPage({ backendUrl }) {
                     placeholder="e.g. +91 98765 43210"
                     value={formData.phone}
                     onChange={handleChange}
+                    required
                   />
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Enquiry Subject</label>
+                  <label className="form-label">Enquiry Subject *</label>
                   <select
                     name="subject"
                     className="form-control"
                     value={formData.subject}
                     onChange={handleChange}
+                    required
                   >
                     <option value="General Product Enquiry">General Product Enquiry</option>
                     <option value="Corporate / Bulk Order Quotation">Corporate / Bulk Order Quotation</option>

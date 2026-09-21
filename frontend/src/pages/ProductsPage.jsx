@@ -6,7 +6,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Filter products locally for search
+  
   const filteredProducts = products.filter(product => {
     const matchesCategory =
       selectedCategory === 'all' || product.category_id === Number(selectedCategory);
@@ -22,7 +22,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
 
   return (
     <div>
-      {/* Page Header */}
+    
       <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '35px 0' }}>
         <div className="container">
           <h1 style={{ fontSize: '30px', marginBottom: '6px' }}>Product Catalogue</h1>
@@ -32,12 +32,12 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
         </div>
       </section>
 
-      {/* Catalogue Content */}
+     
       <section className="section-padding">
         <div className="container">
-          {/* Filter and Search Bar */}
+        
           <div className="filter-bar">
-            {/* Search Input */}
+            
             <div style={{ position: 'relative', flex: 1, width: '100%', minWidth: '200px' }}>
               <Search
                 size={18}
@@ -53,7 +53,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
               />
             </div>
 
-            {/* Category Tabs */}
+           
             <div className="category-tabs">
               <button
                 className={`tab-btn ${selectedCategory === 'all' ? 'active' : ''}`}
@@ -73,13 +73,13 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
             </div>
           </div>
 
-          {/* If viewing All without search: Show section by section with 2 products each */}
+          
           {selectedCategory === 'all' && searchQuery.trim() === '' ? (
             <div>
               {categories.map(cat => {
                 const catProducts = products
                   .filter(p => p.category_id === cat.id)
-                  .slice(0, 2); // Exactly 2 products per section
+                  .slice(0, 2); 
 
                 if (catProducts.length === 0) return null;
 
@@ -112,7 +112,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
               })}
             </div>
           ) : (
-            /* If a category is selected or searching */
+          
             <div>
               <div style={{ marginBottom: '18px', color: 'var(--text-muted)', fontSize: '14px' }}>
                 Showing <strong>{filteredProducts.slice(0, 2).length}</strong> {filteredProducts.length === 1 ? 'product' : 'products'}

@@ -27,8 +27,13 @@ export default function CartPage({ navigateTo, backendUrl }) {
 
   const handleCartEnquirySubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name.trim() || !formData.email.trim()) {
-      setErrorMsg('Please provide your name and email address.');
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.phone.trim() ||
+      !formData.notes.trim()
+    ) {
+      setErrorMsg('All fields marked with an asterisk (*) are mandatory. Please fill in all fields.');
       return;
     }
 
@@ -40,11 +45,11 @@ export default function CartPage({ navigateTo, backendUrl }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customer_name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
+          customer_name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
           subject: 'Cart Products Quotation Request',
-          message: formData.notes ? `Customer Note: ${formData.notes}` : 'Requesting quotation and delivery schedule for the attached cart items.',
+          message: `Customer Note: ${formData.notes.trim()}`,
           items: cartItems.map(item => ({
             id: item.id,
             name: item.name,
@@ -99,7 +104,7 @@ export default function CartPage({ navigateTo, backendUrl }) {
 
   return (
     <div>
-      {/* Header */}
+     
       <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '40px 0' }}>
         <div className="container">
           <h1 style={{ fontSize: '30px', marginBottom: '6px' }}>Your Shopping Cart</h1>
@@ -109,7 +114,7 @@ export default function CartPage({ navigateTo, backendUrl }) {
         </div>
       </section>
 
-      {/* Cart Content */}
+
       <section className="section-padding">
         <div className="container">
           {cartItems.length === 0 ? (
@@ -250,11 +255,12 @@ export default function CartPage({ navigateTo, backendUrl }) {
                     </div>
 
                     <div className="form-group" style={{ marginBottom: '12px' }}>
-                      <label className="form-label">Phone Number</label>
+                      <label className="form-label">Phone Number *</label>
                       <input
                         type="tel"
                         name="phone"
                         className="form-control"
+                        required
                         value={formData.phone}
                         onChange={handleInputChange}
                         placeholder="e.g. +91 9876543210"
@@ -262,11 +268,12 @@ export default function CartPage({ navigateTo, backendUrl }) {
                     </div>
 
                     <div className="form-group" style={{ marginBottom: '16px' }}>
-                      <label className="form-label">Delivery Note / Special Instructions</label>
+                      <label className="form-label">Delivery Note / Special Instructions *</label>
                       <textarea
                         name="notes"
                         rows="2"
                         className="form-control"
+                        required
                         value={formData.notes}
                         onChange={handleInputChange}
                         placeholder="e.g. Need delivery in Chennai, floor 4..."
