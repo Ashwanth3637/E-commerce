@@ -33,7 +33,7 @@ async function seedData() {
         short_description: 'Breathable mesh chair with 3D lumbar support and adjustable armrests.',
         description: 'Engineered for all-day comfort, the ProErgo Executive Mesh Chair features dynamic lumbar support, breathable Korean mesh, 4D adjustable armrests, and a 135-degree recline mechanism with tilt lock.',
         price: 14999,
-        image_url: 'https://images.unsplash.com/photo-1580481077195-c9a9103c8091?auto=format&fit=crop&w=800&q=80',
+        image_url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80',
         stock_status: 'In Stock',
         specifications: 'Material: Breathable Mesh | Max Weight: 150 kg | Warranty: 3 Years | Color: Charcoal Gray',
         featured: 1

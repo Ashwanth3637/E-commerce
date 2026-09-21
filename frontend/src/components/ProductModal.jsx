@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { X, Check, ShoppingBag } from 'lucide-react';
 
-const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1580481077195-c9a9103c8091?auto=format&fit=crop&w=600&q=80';
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80';
 
 export default function ProductModal({ product, onClose, onGoToCart }) {
   const { addToCart } = useCart();
