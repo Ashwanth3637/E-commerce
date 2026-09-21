@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 
-export default function Navbar({ currentPage, navigateTo, user, onLogout }) {
+export default function Navbar({ currentPage, navigateTo }) {
   const { getCartCount } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
   const cartCount = getCartCount();
@@ -54,25 +54,6 @@ export default function Navbar({ currentPage, navigateTo, user, onLogout }) {
               Contact / Enquiry
             </span>
           </li>
-          {user ? (
-            <li>
-              <span
-                className={`nav-link ${currentPage === 'account' ? 'active' : ''}`}
-                onClick={() => handleNav('account')}
-              >
-                My Account ({user.name.split(' ')[0]})
-              </span>
-            </li>
-          ) : (
-            <li>
-              <span
-                className={`nav-link ${currentPage === 'login' ? 'active' : ''}`}
-                onClick={() => handleNav('login')}
-              >
-                Sign In
-              </span>
-            </li>
-          )}
         </ul>
 
         {/* Actions (Cart & Mobile Menu) */}

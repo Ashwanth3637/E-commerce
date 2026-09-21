@@ -7,9 +7,6 @@ import AboutPage from './pages/AboutPage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
 import ContactPage from './pages/ContactPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import AccountPage from './pages/AccountPage';
 
 const BACKEND_URL = '';
 
@@ -134,16 +131,6 @@ export default function App() {
   const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // User state
-  const [user, setUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem('ecom_user');
-      return saved ? JSON.parse(saved) : null;
-    } catch {
-      return null;
-    }
-  });
-
   // Fetch live products and categories from backend
   useEffect(() => {
     async function loadData() {
@@ -179,25 +166,12 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleLoginSuccess = (userData) => {
-    setUser(userData);
-    localStorage.setItem('ecom_user', JSON.stringify(userData));
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem('ecom_user');
-    navigateTo('home');
-  };
-
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Top Navigation */}
       <Navbar
         currentPage={currentPage}
         navigateTo={navigateTo}
-        user={user}
-        onLogout={handleLogout}
       />
 
       {/* Main Page Routing */}
@@ -225,39 +199,12 @@ export default function App() {
         {currentPage === 'cart' && (
           <CartPage
             navigateTo={navigateTo}
-            user={user}
             backendUrl={BACKEND_URL}
           />
         )}
 
         {currentPage === 'contact' && (
           <ContactPage
-            backendUrl={BACKEND_URL}
-            user={user}
-          />
-        )}
-
-        {currentPage === 'login' && (
-          <LoginPage
-            backendUrl={BACKEND_URL}
-            onLoginSuccess={handleLoginSuccess}
-            navigateTo={navigateTo}
-          />
-        )}
-
-        {currentPage === 'register' && (
-          <RegisterPage
-            backendUrl={BACKEND_URL}
-            onRegisterSuccess={handleLoginSuccess}
-            navigateTo={navigateTo}
-          />
-        )}
-
-        {currentPage === 'account' && (
-          <AccountPage
-            user={user}
-            onLogout={handleLogout}
-            navigateTo={navigateTo}
             backendUrl={BACKEND_URL}
           />
         )}

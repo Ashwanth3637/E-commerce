@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-export default function ContactPage({ backendUrl, user }) {
+export default function ContactPage({ backendUrl }) {
   const [formData, setFormData] = useState({
-    name: user ? user.name : '',
-    email: user ? user.email : '',
-    phone: user ? user.phone : '',
+    name: '',
+    email: '',
+    phone: '',
     subject: 'General Product Enquiry',
     message: ''
   });

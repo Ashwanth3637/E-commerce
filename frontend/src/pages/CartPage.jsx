@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 
-export default function CartPage({ navigateTo, user, backendUrl }) {
+export default function CartPage({ navigateTo, backendUrl }) {
   const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal } = useCart();
   const [showEnquiryForm, setShowEnquiryForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [enquirySuccess, setEnquirySuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Enquiry form state
   const [formData, setFormData] = useState({
-    name: user ? user.name : '',
-    email: user ? user.email : '',
-    phone: user ? user.phone : '',
+    name: '',
+    email: '',
+    phone: '',
     notes: ''
   });
 
