@@ -1,8 +1,9 @@
 import React from 'react';
 import ProductCard from '../components/ProductCard';
+import { ShieldCheck, Zap, Award, ArrowRight } from 'lucide-react';
 
 export default function HomePage({ products, navigateTo, onSelectProduct }) {
-  const featuredProducts = products.filter(p => p.featured === 1).slice(0, 4);
+  const featuredProducts = products.filter(p => p.featured === 1).slice(0, 2);
 
   return (
     <div>
@@ -20,7 +21,7 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
               </p>
               <div className="hero-btns">
                 <button className="btn btn-primary" onClick={() => navigateTo('products')}>
-                  Explore Products →
+                  Explore Products <ArrowRight size={16} />
                 </button>
                 <button className="btn btn-outline" onClick={() => navigateTo('contact')}>
                   Request B2B Quote
@@ -48,19 +49,25 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
 
           <div className="grid-3">
             <div className="feature-box">
-              <div className="feature-icon">🛡️</div>
+              <div className="feature-icon-wrap">
+                <ShieldCheck size={26} strokeWidth={2} />
+              </div>
               <h3>Certified Ergonomic Design</h3>
               <p>Scientifically tested lumbar support and height adjustment to reduce strain and boost daily focus.</p>
             </div>
 
             <div className="feature-box">
-              <div className="feature-icon">⚡</div>
+              <div className="feature-icon-wrap">
+                <Zap size={26} strokeWidth={2} />
+              </div>
               <h3>Direct Enterprise Pricing</h3>
               <p>Get transparent pricing, tiered bulk volume discounts, and prompt product dispatch across India.</p>
             </div>
 
             <div className="feature-box">
-              <div className="feature-icon">🤝</div>
+              <div className="feature-icon-wrap">
+                <Award size={26} strokeWidth={2} />
+              </div>
               <h3>Dedicated Support & Warranty</h3>
               <p>Up to 3-year warranty with dedicated account managers and hassle-free post-purchase service.</p>
             </div>
@@ -77,7 +84,7 @@ export default function HomePage({ products, navigateTo, onSelectProduct }) {
               <h2 style={{ fontSize: '26px', marginTop: '4px' }}>Featured Products</h2>
             </div>
             <button className="btn btn-outline btn-sm" onClick={() => navigateTo('products')}>
-              View Full Catalogue →
+              View Full Catalogue <ArrowRight size={14} />
             </button>
           </div>
 

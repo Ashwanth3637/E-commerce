@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ProductCard from '../components/ProductCard';
+import { Search, PackageSearch, RotateCcw } from 'lucide-react';
 
 export default function ProductsPage({ products, categories, onSelectProduct }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -37,13 +38,20 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
           {/* Filter and Search Bar */}
           <div className="filter-bar">
             {/* Search Input */}
-            <input
-              type="text"
-              placeholder="🔍 Search products by name, feature..."
-              className="search-input"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
+              <Search
+                size={18}
+                style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}
+              />
+              <input
+                type="text"
+                placeholder="Search products by name, feature..."
+                className="search-input"
+                style={{ paddingLeft: '38px', width: '100%' }}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
 
             {/* Category Tabs */}
             <div className="category-tabs">
@@ -122,10 +130,12 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
                   ))}
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', padding: '60px 20px', backgroundColor: '#ffffff', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-                  <div style={{ fontSize: '40px', marginBottom: '12px' }}>🔍</div>
+                <div style={{ textAlign: 'center', padding: '50px 20px', backgroundColor: '#ffffff', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
+                  <div className="feature-icon-wrap" style={{ width: '56px', height: '56px', margin: '0 auto 12px' }}>
+                    <PackageSearch size={28} />
+                  </div>
                   <h3 style={{ marginBottom: '8px' }}>No products found</h3>
-                  <p style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '16px', fontSize: '14px' }}>
                     We couldn't find any products matching your search criteria. Try clearing the filter.
                   </p>
                   <button
@@ -135,7 +145,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
                       setSearchQuery('');
                     }}
                   >
-                    Reset Filters
+                    <RotateCcw size={14} /> Reset Filters
                   </button>
                 </div>
               )}

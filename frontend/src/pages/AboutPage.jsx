@@ -1,4 +1,5 @@
 import React from 'react';
+import { Target, Compass, Sparkles, Cpu, Leaf, Users } from 'lucide-react';
 
 export default function AboutPage({ navigateTo }) {
   return (
@@ -45,7 +46,9 @@ export default function AboutPage({ navigateTo }) {
         <div className="container">
           <div className="grid-3" style={{ gridTemplateColumns: '1fr 1fr' }}>
             <div style={{ backgroundColor: 'var(--bg-light)', padding: '30px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-              <div style={{ fontSize: '30px', marginBottom: '10px' }}>🎯</div>
+              <div className="feature-icon-wrap">
+                <Target size={26} strokeWidth={2} />
+              </div>
               <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>Our Mission</h3>
               <p style={{ color: 'var(--text-muted)' }}>
                 To empower professionals with scientifically engineered furniture and accessories that eliminate strain, optimize posture, and enhance everyday workday well-being.
@@ -53,7 +56,9 @@ export default function AboutPage({ navigateTo }) {
             </div>
 
             <div style={{ backgroundColor: 'var(--bg-light)', padding: '30px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-              <div style={{ fontSize: '30px', marginBottom: '10px' }}>🔭</div>
+              <div className="feature-icon-wrap">
+                <Compass size={26} strokeWidth={2} />
+              </div>
               <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>Our Vision</h3>
               <p style={{ color: 'var(--text-muted)' }}>
                 To become the most reliable and innovative workplace ergonomics brand across India, known for durable craftsmanship, transparent pricing, and unmatched customer care.
@@ -73,25 +78,33 @@ export default function AboutPage({ navigateTo }) {
 
           <div className="grid-4">
             <div className="feature-box">
-              <div className="feature-icon">✨</div>
+              <div className="feature-icon-wrap">
+                <Sparkles size={24} strokeWidth={2} />
+              </div>
               <h3>Uncompromised Quality</h3>
               <p>We source heavy-gauge steel, Korean breathable mesh, and sustainable hardwoods tested for 100,000+ duty cycles.</p>
             </div>
 
             <div className="feature-box">
-              <div className="feature-icon">🔬</div>
+              <div className="feature-icon-wrap">
+                <Cpu size={24} strokeWidth={2} />
+              </div>
               <h3>Ergonomic Science</h3>
               <p>Every chair angle, desk height range, and lamp lux level is designed based on human biomechanics.</p>
             </div>
 
             <div className="feature-box">
-              <div className="feature-icon">🌱</div>
+              <div className="feature-icon-wrap">
+                <Leaf size={24} strokeWidth={2} />
+              </div>
               <h3>Sustainability</h3>
               <p>Eco-friendly packaging and sustainably harvested wood materials that minimize our environmental footprint.</p>
             </div>
 
             <div className="feature-box">
-              <div className="feature-icon">🤝</div>
+              <div className="feature-icon-wrap">
+                <Users size={24} strokeWidth={2} />
+              </div>
               <h3>Customer First</h3>
               <p>Responsive after-sales support, free assembly consultation, and transparent warranty policies.</p>
             </div>

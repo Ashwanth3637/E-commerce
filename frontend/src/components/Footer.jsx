@@ -1,4 +1,5 @@
 import React from 'react';
+import { Layers, MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export default function Footer({ navigateTo }) {
   return (
@@ -7,7 +8,10 @@ export default function Footer({ navigateTo }) {
         <div className="footer-grid">
           {/* Company Brief */}
           <div className="footer-col">
-            <h4>🏢 Apex Workspace Solutions</h4>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', color: '#ffffff', fontWeight: 'bold', fontSize: '16px' }}>
+              <Layers size={20} color="var(--primary-light)" />
+              <span>Apex Workspace Solutions</span>
+            </div>
             <p>
               Delivering ergonomic office furniture, motorized standing desks, smart lighting, and modern workspace technology for progressive companies and remote professionals.
             </p>
@@ -39,11 +43,23 @@ export default function Footer({ navigateTo }) {
           {/* Contact Details */}
           <div className="footer-col">
             <h4>Contact Info</h4>
-            <ul className="footer-links">
-              <li>📍 104 Industrial Tech Park, Guindy, Chennai</li>
-              <li>📞 +91 (044) 4567-8900</li>
-              <li>✉️ enquiries@apexworkspace.com</li>
-              <li>🕒 Mon - Sat: 9:00 AM - 6:00 PM</li>
+            <ul className="footer-links" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <li style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                <MapPin size={16} style={{ flexShrink: 0, marginTop: '3px', color: 'var(--primary-light)' }} />
+                <span>104 Industrial Tech Park, Guindy, Chennai</span>
+              </li>
+              <li style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Phone size={16} style={{ flexShrink: 0, color: 'var(--primary-light)' }} />
+                <span>+91 (044) 4567-8900</span>
+              </li>
+              <li style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Mail size={16} style={{ flexShrink: 0, color: 'var(--primary-light)' }} />
+                <span>enquiries@apexworkspace.com</span>
+              </li>
+              <li style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Clock size={16} style={{ flexShrink: 0, color: 'var(--primary-light)' }} />
+                <span>Mon - Sat: 9:00 AM - 6:00 PM</span>
+              </li>
             </ul>
           </div>
         </div>

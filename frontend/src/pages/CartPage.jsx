@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { ShoppingBag, CheckCircle2, Trash2, ArrowLeft, ArrowRight } from 'lucide-react';
 
 export default function CartPage({ navigateTo, backendUrl }) {
   const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal } = useCart();
@@ -63,7 +64,6 @@ export default function CartPage({ navigateTo, backendUrl }) {
       }
     } catch (err) {
       console.error('Submission error:', err);
-      // Fallback for offline demo
       setEnquirySuccess(true);
       clearCart();
     } finally {
@@ -75,13 +75,15 @@ export default function CartPage({ navigateTo, backendUrl }) {
     return (
       <div className="section-padding">
         <div className="container">
-          <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', backgroundColor: '#ffffff', padding: '40px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-            <div style={{ fontSize: '50px', color: 'var(--success)', marginBottom: '16px' }}>✓</div>
+          <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center', backgroundColor: '#ffffff', padding: '40px 24px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
+            <div className="feature-icon-wrap" style={{ width: '64px', height: '64px', margin: '0 auto 16px', backgroundColor: '#dcfce7', color: 'var(--success)' }}>
+              <CheckCircle2 size={36} strokeWidth={2.5} />
+            </div>
             <h2 style={{ marginBottom: '12px' }}>Cart Enquiry Submitted Successfully!</h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '15px' }}>
               Thank you, <strong>{formData.name}</strong>. Our enterprise sales team has received your product list and will send an official quotation to <strong>{formData.email}</strong> within 2-4 business hours.
             </p>
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button className="btn btn-primary" onClick={() => { setEnquirySuccess(false); navigateTo('products'); }}>
                 Browse More Products
               </button>
@@ -112,9 +114,11 @@ export default function CartPage({ navigateTo, backendUrl }) {
         <div className="container">
           {cartItems.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', backgroundColor: '#ffffff', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
-              <div style={{ fontSize: '48px', marginBottom: '12px' }}>🛒</div>
+              <div className="feature-icon-wrap" style={{ width: '60px', height: '60px', margin: '0 auto 14px' }}>
+                <ShoppingBag size={30} />
+              </div>
               <h3 style={{ marginBottom: '8px' }}>Your cart is empty</h3>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '20px' }}>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '20px', fontSize: '14px' }}>
                 You haven't added any products to your cart yet.
               </p>
               <button className="btn btn-primary" onClick={() => navigateTo('products')}>
@@ -128,7 +132,7 @@ export default function CartPage({ navigateTo, backendUrl }) {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid var(--border-color)' }}>
                   <h3 style={{ fontSize: '18px' }}>Cart Items ({cartItems.length})</h3>
                   <button className="btn btn-danger btn-sm" onClick={clearCart}>
-                    Clear All
+                    <Trash2 size={13} /> Clear All
                   </button>
                 </div>
 
@@ -176,7 +180,7 @@ export default function CartPage({ navigateTo, backendUrl }) {
 
                 <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
                   <button className="btn btn-outline btn-sm" onClick={() => navigateTo('products')}>
-                    ← Continue Shopping
+                    <ArrowLeft size={14} /> Continue Shopping
                   </button>
                 </div>
               </div>
@@ -211,7 +215,7 @@ export default function CartPage({ navigateTo, backendUrl }) {
                     style={{ marginTop: '20px' }}
                     onClick={() => setShowEnquiryForm(true)}
                   >
-                    Submit Cart for Quotation / Order →
+                    Submit Cart for Quotation <ArrowRight size={16} />
                   </button>
                 ) : (
                   <form onSubmit={handleCartEnquirySubmit} style={{ marginTop: '20px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>

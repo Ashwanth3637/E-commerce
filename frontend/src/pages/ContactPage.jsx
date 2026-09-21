@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MapPin, Phone, Mail, Clock, CheckCircle } from 'lucide-react';
 
 export default function ContactPage({ backendUrl }) {
   const [formData, setFormData] = useState({
@@ -91,7 +92,9 @@ export default function ContactPage({ backendUrl }) {
               </h2>
 
               <div className="contact-item">
-                <div className="contact-item-icon">📍</div>
+                <div className="feature-icon-wrap" style={{ width: '40px', height: '40px', marginBottom: 0 }}>
+                  <MapPin size={20} />
+                </div>
                 <div>
                   <h4 style={{ fontSize: '15px' }}>Office Address</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
@@ -101,7 +104,9 @@ export default function ContactPage({ backendUrl }) {
               </div>
 
               <div className="contact-item">
-                <div className="contact-item-icon">📞</div>
+                <div className="feature-icon-wrap" style={{ width: '40px', height: '40px', marginBottom: 0 }}>
+                  <Phone size={20} />
+                </div>
                 <div>
                   <h4 style={{ fontSize: '15px' }}>Direct Phone</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
@@ -111,7 +116,9 @@ export default function ContactPage({ backendUrl }) {
               </div>
 
               <div className="contact-item">
-                <div className="contact-item-icon">✉️</div>
+                <div className="feature-icon-wrap" style={{ width: '40px', height: '40px', marginBottom: 0 }}>
+                  <Mail size={20} />
+                </div>
                 <div>
                   <h4 style={{ fontSize: '15px' }}>Email Enquiries</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
@@ -121,7 +128,9 @@ export default function ContactPage({ backendUrl }) {
               </div>
 
               <div className="contact-item">
-                <div className="contact-item-icon">🕒</div>
+                <div className="feature-icon-wrap" style={{ width: '40px', height: '40px', marginBottom: 0 }}>
+                  <Clock size={20} />
+                </div>
                 <div>
                   <h4 style={{ fontSize: '15px' }}>Working Hours</h4>
                   <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
@@ -137,8 +146,11 @@ export default function ContactPage({ backendUrl }) {
               <h3 style={{ fontSize: '20px', marginBottom: '16px' }}>Send Us an Enquiry</h3>
 
               {success && (
-                <div className="alert-success">
-                  <strong>✓ Enquiry Submitted!</strong> Thank you for contacting Apex Workspace. Our customer representative will review your message and reach out shortly.
+                <div className="alert-success" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <CheckCircle size={20} color="var(--success)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong>Enquiry Submitted!</strong> Thank you for contacting Apex Workspace. Our customer representative will review your message and reach out shortly.
+                  </div>
                 </div>
               )}
 

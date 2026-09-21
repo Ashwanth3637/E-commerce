@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { ShoppingBag, Layers, Menu, X } from 'lucide-react';
 
 export default function Navbar({ currentPage, navigateTo }) {
   const { getCartCount } = useCart();
@@ -16,7 +17,7 @@ export default function Navbar({ currentPage, navigateTo }) {
       <div className="container nav-container">
         {/* Brand Logo */}
         <div className="brand-logo" onClick={() => handleNav('home')}>
-          <span>🏢</span>
+          <Layers size={22} color="var(--primary)" strokeWidth={2.5} />
           <span>Apex Workspace</span>
         </div>
 
@@ -63,7 +64,8 @@ export default function Navbar({ currentPage, navigateTo }) {
             onClick={() => handleNav('cart')}
             title="View Shopping Cart"
           >
-            <span>🛒 Cart</span>
+            <ShoppingBag size={18} strokeWidth={2} />
+            <span>Cart</span>
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </button>
 
@@ -72,7 +74,7 @@ export default function Navbar({ currentPage, navigateTo }) {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? '✕' : '☰'}
+            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
