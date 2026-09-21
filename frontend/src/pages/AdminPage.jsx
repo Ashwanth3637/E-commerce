@@ -289,7 +289,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="admin"
+                  placeholder="Enter admin username"
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -301,7 +301,7 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                 <input
                   type="password"
                   className="form-control"
-                  placeholder="admin123"
+                  placeholder="Enter password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -312,10 +312,6 @@ export default function AdminPage({ backendUrl, onProductChange }) {
                 Login
               </button>
             </form>
-
-            <div style={{ marginTop: '16px', padding: '10px', backgroundColor: '#f1f5f9', borderRadius: '4px', fontSize: '12px', color: '#64748b', textAlign: 'center' }}>
-              <strong>Demo Login:</strong> Username: <code>admin</code> | Password: <code>admin123</code>
-            </div>
           </div>
         </div>
       </div>

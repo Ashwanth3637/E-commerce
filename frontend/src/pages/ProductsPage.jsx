@@ -59,7 +59,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
                 className={`tab-btn ${selectedCategory === 'all' ? 'active' : ''}`}
                 onClick={() => setSelectedCategory('all')}
               >
-                All Sections ({categories.length})
+                All Products
               </button>
               {categories.map(cat => (
                 <button
@@ -94,7 +94,7 @@ export default function ProductsPage({ products, categories, onSelectProduct }) 
                         className="btn btn-outline btn-sm"
                         onClick={() => setSelectedCategory(String(cat.id))}
                       >
-                        Filter {cat.name}
+                        View More
                       </button>
                     </div>
 

@@ -26,7 +26,7 @@ export default function Footer({ navigateTo }) {
               <li><a onClick={() => navigateTo('products')}>Product Catalogue</a></li>
               <li><a onClick={() => navigateTo('cart')}>Shopping Cart</a></li>
               <li><a onClick={() => navigateTo('contact')}>Contact & Enquiry</a></li>
-              <li><a onClick={() => navigateTo('admin')} style={{ color: 'var(--primary-light)', fontWeight: '600' }}>Admin Portal (Management)</a></li>
+              <li><a onClick={() => navigateTo('admin')} style={{ color: 'var(--primary-light)', fontWeight: '600' }}>Admin Portal</a></li>
             </ul>
           </div>
 
