@@ -109,7 +109,7 @@ export default function AboutPage({ navigateTo }) {
               <p>Responsive after-sales support, free assembly consultation, and transparent warranty policies.</p>
             </div>
           </div>
-          
+
         </div>
       </section>
 

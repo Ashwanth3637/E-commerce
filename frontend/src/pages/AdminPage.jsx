@@ -65,6 +65,30 @@ export default function AdminPage({ backendUrl, onProductChange }) {
     }
   }, [isLoggedIn]);
 
+  // Handle Escape key to close any open modal & lock background scroll
+  useEffect(() => {
+    const isAnyModalOpen = Boolean(viewEnquiry || showAddProduct);
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (viewEnquiry) setViewEnquiry(null);
+        if (showAddProduct) setShowAddProduct(false);
+      }
+    };
+
+    if (isAnyModalOpen) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [viewEnquiry, showAddProduct]);
+
   // Login Function
   const handleLogin = async (e) => {
     e.preventDefault();
