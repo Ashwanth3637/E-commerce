@@ -265,6 +265,12 @@ h1, h2, h3, h4 {
 }
 
 /* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -828,7 +834,7 @@ h1, h2, h3, h4 {
   .hero-image img {
     height: 280px;
   }
-  .grid-4, .grid-3 {
+  .grid-4, .grid-3, .grid-2 {
     grid-template-columns: repeat(2, 1fr);
   }
   .cart-layout, .contact-grid {
@@ -895,6 +901,57 @@ h1, h2, h3, h4 {
     width: 100%;
   }
 
+  /* About Page Mobile Layout */
+  .grid-4, .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Products Page Mobile Layout */
+  .products-grid-medium {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .product-card {
+    max-width: 100%;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .category-tabs {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Contact Page Mobile Layout */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .contact-info-card, .form-card {
+    padding: 18px 14px;
+  }
+
+  .contact-item {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
   /* Modal Popup Mobile Styling */
   .modal-overlay {
     padding: 10px;
@@ -938,22 +995,6 @@ h1, h2, h3, h4 {
     margin-left: auto;
   }
 
-  .filter-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-input {
-    width: 100%;
-  }
-
-  .category-tabs {
-    width: 100%;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 6px;
-  }
-
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -964,10 +1005,6 @@ h1, h2, h3, h4 {
 @media (max-width: 480px) {
   .container {
     padding: 0 12px;
-  }
-
-  .grid-4, .grid-3 {
-    grid-template-columns: 1fr;
   }
 
   .section-title h2 {

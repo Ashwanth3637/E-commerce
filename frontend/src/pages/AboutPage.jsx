@@ -5,10 +5,10 @@ export default function AboutPage({ navigateTo }) {
   return (
     <div>
       {/* Page Header */}
-      <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '40px 0' }}>
+      <section style={{ backgroundColor: '#ffffff', borderBottom: '1px solid var(--border-color)', padding: '35px 0' }}>
         <div className="container">
-          <h1 style={{ fontSize: '32px', marginBottom: '8px' }}>About Apex Workspace</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '16px' }}>
+          <h1 style={{ fontSize: '30px', marginBottom: '8px' }}>About Apex Workspace</h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '15px' }}>
             Designing sustainable, ergonomic, and performance-driven workplace essentials.
           </p>
         </div>
@@ -20,13 +20,13 @@ export default function AboutPage({ navigateTo }) {
           <div className="hero-grid">
             <div>
               <span style={{ color: 'var(--primary)', fontWeight: '600', fontSize: '13px' }}>WHO WE ARE</span>
-              <h2 style={{ fontSize: '28px', marginTop: '6px', marginBottom: '16px' }}>
+              <h2 style={{ fontSize: '26px', marginTop: '6px', marginBottom: '14px' }}>
                 Pioneering Ergonomic Comfort & Workspace Technology
               </h2>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '14px' }}>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '14px', fontSize: '15px' }}>
                 Apex Workspace was established to bridge the gap between aesthetic architectural design and medical ergonomic standards. We believe that physical comfort directly fuels mental focus and creative problem-solving.
               </p>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '20px' }}>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '20px', fontSize: '15px' }}>
                 Over the past 8 years, we have outfitted over 500 corporate offices, coworking spaces, and home setups with custom standing desks, orthopaedic mesh seating, and glare-free lighting systems.
               </p>
             </div>
@@ -34,7 +34,7 @@ export default function AboutPage({ navigateTo }) {
               <img
                 src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80"
                 alt="Workspace design workshop"
-                style={{ borderRadius: 'var(--radius)', width: '100%', height: '340px', objectFit: 'cover' }}
+                style={{ borderRadius: 'var(--radius)', width: '100%', height: '320px', objectFit: 'cover' }}
               />
             </div>
           </div>
@@ -44,23 +44,23 @@ export default function AboutPage({ navigateTo }) {
       {/* Mission & Vision */}
       <section className="section-padding" style={{ backgroundColor: '#ffffff', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
         <div className="container">
-          <div className="grid-3" style={{ gridTemplateColumns: '1fr 1fr' }}>
-            <div style={{ backgroundColor: 'var(--bg-light)', padding: '30px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
+          <div className="grid-2">
+            <div style={{ backgroundColor: 'var(--bg-light)', padding: '24px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
               <div className="feature-icon-wrap">
                 <Target size={26} strokeWidth={2} />
               </div>
-              <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>Our Mission</h3>
-              <p style={{ color: 'var(--text-muted)' }}>
+              <h3 style={{ fontSize: '20px', marginBottom: '8px' }}>Our Mission</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
                 To empower professionals with scientifically engineered furniture and accessories that eliminate strain, optimize posture, and enhance everyday workday well-being.
               </p>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-light)', padding: '30px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
+            <div style={{ backgroundColor: 'var(--bg-light)', padding: '24px', borderRadius: 'var(--radius)', border: '1px solid var(--border-color)' }}>
               <div className="feature-icon-wrap">
                 <Compass size={26} strokeWidth={2} />
               </div>
-              <h3 style={{ fontSize: '20px', marginBottom: '10px' }}>Our Vision</h3>
-              <p style={{ color: 'var(--text-muted)' }}>
+              <h3 style={{ fontSize: '20px', marginBottom: '8px' }}>Our Vision</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>
                 To become the most reliable and innovative workplace ergonomics brand across India, known for durable craftsmanship, transparent pricing, and unmatched customer care.
               </p>
             </div>
@@ -113,10 +113,10 @@ export default function AboutPage({ navigateTo }) {
       </section>
 
       {/* CTA Box */}
-      <section style={{ backgroundColor: '#f1f5f9', borderTop: '1px solid var(--border-color)', padding: '50px 0', textAlign: 'center' }}>
+      <section style={{ backgroundColor: '#f1f5f9', borderTop: '1px solid var(--border-color)', padding: '45px 0', textAlign: 'center' }}>
         <div className="container">
-          <h2 style={{ fontSize: '24px', marginBottom: '12px' }}>Have questions or need a custom corporate proposal?</h2>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '22px', marginBottom: '10px' }}>Have questions or need a custom corporate proposal?</h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '18px', fontSize: '14px' }}>
             Our workspace consultants are available to help you plan and optimize your office layout.
           </p>
           <button className="btn btn-primary" onClick={() => navigateTo('contact')}>
